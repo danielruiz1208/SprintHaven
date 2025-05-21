@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Sistema de Préstamos</title>
+  <!-- Estilos para el dashboard -->
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <!-- Estilos para la gestión -->
+  <link rel="stylesheet" th:href="@{/css/management.css}">
+  <!-- Íconos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<!-- Contenedor principal -->
+<div class="container">
+  <!-- Barra lateral -->
+  <aside id="sidebar">
+    <div class="sidebar-brand">
+      <img th:src="@{/img/logo uni.png}" id="logo-toggle" alt="Logo">
+      <span>Sistema de Préstamos</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#usuarios" class="active"><i class="fas fa-users"></i><span>Usuarios</span></a></li>
+      <li><a href="#prestamos"><i class="fas fa-handshake"></i><span>Préstamos</span></a></li>
+      <li><a href="#equipos"><i class="fas fa-desktop"></i><span>Equipos</span></a></li>
+      <li><a href="#mantenimiento"><i class="fas fa-tools"></i><span>Mantenimiento</span></a></li>
+      <li><a href="#sanciones"><i class="fas fa-exclamation-triangle"></i><span>Sanciones</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <!-- Encabezado -->
+    <header class="header">
+      <h1>Panel de Control</h1>
+      <div class="user-info">
+        <span th:text="${username}"></span>
+        <p>Rol del usuario: <span th:text="${role}"></span></p>
+        <a th:href="@{/logout}">Cerrar Sesión</a>
+      </div>
+    </header>
+
+    <!-- Sección de Usuarios -->
+    <section id="usuarios" class="section active">
+      <h2>Gestión de Usuarios</h2>
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="personaSearch" placeholder="Buscar por nombre o apellido...">
+        <button onclick="searchPersonas()"><i class="fas fa-search"></i></button>
+      </div>
+      <button class="add-btn add-persona-btn">Agregar Persona</button>
+      <table>
+        <thead>
+        <tr>
+          <th>RU</th>
+          <th>Nombre</th>
+          <th>Apellido Paterno</th>
+          <th>Apellido Materno</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Fecha de Nacimiento</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="persona : ${personas}">
+          <td th:text="${persona.ru}"></td>
+          <td th:text="${persona.nombre}"></td>
+          <td th:text="${persona.apellidoPaterno}"></td>
+          <td th:text="${persona.apellidoMaterno}"></td>
+          <td th:text="${persona.correo}"></td>
+          <td th:text="${persona.telefono}"></td>
+          <td th:text="${persona.fechaNacimiento}"></td>
+          <td>
+            <button class="edit-btn"
+                    th:attr="data-ru=${persona.ru},data-nombre=${persona.nombre},data-apellidoPaterno=${persona.apellidoPaterno},data-apellidoMaterno=${persona.apellidoMaterno},data-correo=${persona.correo},data-telefono=${persona.telefono},data-fechaNacimiento=${persona.fechaNacimiento}">
+              Editar
+            </button>
+            <a th:href="@{/personas/delete/{ru}(ru=${persona.ru})}" class="delete-btn">Eliminar</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección de Préstamos -->
+    <section id="prestamos" class="section">
+      <h2>Gestión de Préstamos</h2>
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="prestamoSearch" placeholder="Buscar préstamos...">
+        <button onclick="searchPrestamos()"><i class="fas fa-search"></i></button>
+      </div>
+      <button class="add-btn add-prestamo-btn">Agregar Préstamo</button>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Laboratorio</th>
+          <th>Administrador</th>
+          <th>Fecha Solicitud</th>
+          <th>Fecha Préstamo</th>
+          <th>Fecha Devolución</th>
+          <th>Estado</th>
+          <th>Observaciones</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prestamo : ${prestamos}">
+          <td th:text="${prestamo.idPrestamoEquipo}"></td>
+          <td th:text="${prestamo.usuario?.usuario}"></td>
+          <td th:text="${prestamo.laboratorio?.nombre}"></td>
+          <td th:text="${prestamo.administrador?.usuario}"></td>
+          <td th:text="${prestamo.fechaSolicitud}"></td>
+          <td th:text="${prestamo.fechaPrestamo}"></td>
+          <td th:text="${prestamo.fechaDevolucionEstimada}"></td>
+          <td th:text="${prestamo.estado}"></td>
+          <td th:text="${prestamo.observaciones}"></td>
+          <td>
+            <button class="edit-btn"
+                    th:attr="data-id=${prestamo.idPrestamoEquipo},data-idUsuario=${prestamo.idUsuario},data-idLaboratorio=${prestamo.idLaboratorio},data-idAdministrador=${prestamo.idAdministrador},data-fechaSolicitud=${prestamo.fechaSolicitud},data-fechaPrestamo=${prestamo.fechaPrestamo},data-fechaDevolucionEstimada=${prestamo.fechaDevolucionEstimada},data-estado=${prestamo.estado},data-observaciones=${prestamo.observaciones}">
+              Editar
+            </button>
+            <a th:href="@{/prestamos/delete/{id}(id=${prestamo.idPrestamoEquipo})}" class="delete-btn">Eliminar</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección de Equipos -->
+    <section id="equipos" class="section">
+      <h2>Gestión de Equipos</h2>
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="equipoSearch" placeholder="Buscar por nombre o número de serie...">
+        <button onclick="searchEquipos()"><i class="fas fa-search"></i></button>
+      </div>
+      <button class="add-btn add-equipo-btn">Agregar Equipo</button>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Nro. Serie</th>
+          <th>Nro. Activo Fijo</th>
+          <th>Categoría</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Estado</th>
+          <th>Laboratorio</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="equipo : ${equipos}">
+          <td th:text="${equipo.idEquipo}"></td>
+          <td th:text="${equipo.nombre}"></td>
+          <td th:text="${equipo.marca}"></td>
+          <td th:text="${equipo.modelo}"></td>
+          <td th:text="${equipo.nroSerie}"></td>
+          <td th:text="${equipo.nroActivoFijo}"></td>
+          <td th:text="${equipo.categoria}"></td>
+          <td th:text="${equipo.descripcion}"></td>
+          <td th:text="${equipo.cantidad}"></td>
+          <td th:text="${equipo.estado}"></td>
+          <td th:text="${equipo.laboratorio?.nombre}"></td>
+          <td>
+            <button class="edit-btn"
+                    th:attr="data-id=${equipo.idEquipo},data-nombre=${equipo.nombre},data-marca=${equipo.marca},data-modelo=${equipo.modelo},data-nroSerie=${equipo.nroSerie},data-nroActivoFijo=${equipo.nroActivoFijo},data-categoria=${equipo.categoria},data-descripcion=${equipo.descripcion},data-cantidad=${equipo.cantidad},data-estado=${equipo.estado},data-idLaboratorio=${equipo.idLaboratorio}">
+              Editar
+            </button>
+            <a th:href="@{/equipos/delete/{id}(id=${equipo.idEquipo})}" class="delete-btn">Eliminar</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección de Mantenimiento -->
+    <section id="mantenimiento" class="section">
+      <h2>Gestión de Mantenimiento</h2>
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="mantenimientoSearch" placeholder="Buscar por equipo o problema...">
+        <button onclick="searchMantenimientos()"><i class="fas fa-search"></i></button>
+      </div>
+      <button class="add-btn add-mantenimiento-btn">Agregar Mantenimiento</button>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Equipo</th>
+          <th>Administrador</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Tipo</th>
+          <th>Estado Inicial</th>
+          <th>Estado Final</th>
+          <th>Problema</th>
+          <th>Solución</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mantenimiento : ${mantenimientos}">
+          <td th:text="${mantenimiento.idMantenimiento}"></td>
+          <td th:text="${mantenimiento.equipo?.nombre}"></td>
+          <td th:text="${mantenimiento.usuario?.usuario}"></td>
+          <td th:text="${mantenimiento.fechaInicio}"></td>
+          <td th:text="${mantenimiento.fechaFin}"></td>
+          <td th:text="${mantenimiento.tipoMantenimiento}"></td>
+          <td th:text="${mantenimiento.estadoInicial}"></td>
+          <td th:text="${mantenimiento.estadoFinal}"></td>
+          <td th:text="${mantenimiento.problema}"></td>
+          <td th:text="${mantenimiento.solucion}"></td>
+          <td th:text="${mantenimiento.estado}"></td>
+          <td>
+            <button class="edit-btn"
+                    th:attr="data-id=${mantenimiento.idMantenimiento},data-idEquipo=${mantenimiento.idEquipo},data-idUsuario=${mantenimiento.idUsuario},data-fechaInicio=${mantenimiento.fechaInicio},data-fechaFin=${mantenimiento.fechaFin},data-tipoMantenimiento=${mantenimiento.tipoMantenimiento},data-estadoInicial=${mantenimiento.estadoInicial},data-estadoFinal=${mantenimiento.estadoFinal},data-problema=${mantenimiento.problema},data-solucion=${mantenimiento.solucion},data-estado=${mantenimiento.estado}">
+              Editar
+            </button>
+            <a th:href="@{/mantenimientos/delete/{id}(id=${mantenimiento.idMantenimiento})}" class="delete-btn">Eliminar</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección de Sanciones -->
+    <section id="sanciones" class="section">
+      <h2>Gestión de Sanciones</h2>
+      <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+      </div>
+      <div class="search-box">
+        <input type="text" id="sancionSearch" placeholder="Buscar por usuario o descripción...">
+        <button onclick="searchSanciones()"><i class="fas fa-search"></i></button>
+      </div>
+      <button class="add-btn add-sancion-btn">Agregar Sanción</button>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Estado</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sancion : ${sanciones}">
+          <td th:text="${sancion.idSancion}"></td>
+          <td th:text="${sancion.usuario?.usuario}"></td>
+          <td th:text="${sancion.fechaInicio}"></td>
+          <td th:text="${sancion.fechaFin}"></td>
+          <td th:text="${sancion.estado}"></td>
+          <td th:text="${sancion.descripcion}"></td>
+          <td>
+            <button class="edit-btn"
+                    th:attr="data-id=${sancion.idSancion},data-idUsuario=${sancion.idUsuario},data-fechaInicio=${sancion.fechaInicio},data-fechaFin=${sancion.fechaFin},data-estado=${sancion.estado},data-descripcion=${sancion.descripcion}">
+              Editar
+            </button>
+            <a th:href="@{/sanciones/delete/{id}(id=${sancion.idSancion})}" class="delete-btn">Eliminar</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Modal para Personas -->
+    <div id="personaModal" class="modal">
+      <div class="modal-content">
+        <h2 id="personaModalTitle">Agregar Persona</h2>
+        <form id="personaForm" th:action="@{/personas/add}" method="post">
+          <div class="form-group">
+            <label for="personaRu">RU</label>
+            <input type="number" id="personaRu" name="ru" required>
+          </div>
+          <div class="form-group">
+            <label for="personaNombre">Nombre</label>
+            <input type="text" id="personaNombre" name="nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="personaApellidoPaterno">Apellido Paterno</label>
+            <input type="text" id="personaApellidoPaterno" name="apellidoPaterno" required>
+          </div>
+          <div class="form-group">
+            <label for="personaApellidoMaterno">Apellido Materno</label>
+            <input type="text" id="personaApellidoMaterno" name="apellidoMaterno" required>
+          </div>
+          <div class="form-group">
+            <label for="personaCorreo">Correo</label>
+            <input type="email" id="personaCorreo" name="correo" required>
+          </div>
+          <div class="form-group">
+            <label for="personaTelefono">Teléfono</label>
+            <input type="text" id="personaTelefono" name="telefono">
+          </div>
+          <div class="form-group">
+            <label for="personaFechaNacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="personaFechaNacimiento" name="fechaNacimiento" required>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" class="close-btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Préstamos -->
+    <div id="prestamoModal" class="modal">
+      <div class="modal-content">
+        <h2 id="prestamoModalTitle">Agregar Préstamo</h2>
+        <form id="prestamoForm" th:action="@{/prestamos/add}" method="post">
+          <div class="form-group">
+            <label for="prestamoId">ID</label>
+            <input type="number" id="prestamoId" name="idPrestamoEquipo" readonly>
+          </div>
+          <div class="form-group">
+            <label for="prestamoIdUsuario">Usuario</label>
+            <select id="prestamoIdUsuario" name="idUsuario" required>
+              <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.usuario}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prestamoIdLaboratorio">Laboratorio</label>
+            <select id="prestamoIdLaboratorio" name="idLaboratorio" required>
+              <option th:each="laboratorio : ${laboratorios}" th:value="${laboratorio.idLaboratorio}" th:text="${laboratorio.nombre}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prestamoIdAdministrador">Administrador</label>
+            <select id="prestamoIdAdministrador" name="idAdministrador" required>
+              <option th:each="admin : ${administradores}" th:value="${admin.idUsuario}" th:text="${admin.usuario}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prestamoFechaSolicitud">Fecha Solicitud</label>
+            <input type="date" id="prestamoFechaSolicitud" name="fechaSolicitud" required>
+          </div>
+          <div class="form-group">
+            <label for="prestamoFechaPrestamo">Fecha Préstamo</label>
+            <input type="date" id="prestamoFechaPrestamo" name="fechaPrestamo">
+          </div>
+          <div class="form-group">
+            <label for="prestamoFechaDevolucionEstimada">Fecha Devolución Estimada</label>
+            <input type="date" id="prestamoFechaDevolucionEstimada" name="fechaDevolucionEstimada" required>
+          </div>
+          <div class="form-group">
+            <label for="prestamoEstado">Estado</label>
+            <select id="prestamoEstado" name="estado" required>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Aprobado">Aprobado</option>
+              <option value="Rechazado">Rechazado</option>
+              <option value="Devuelto">Devuelto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prestamoObservaciones">Observaciones</label>
+            <textarea id="prestamoObservaciones" name="observaciones"></textarea>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" class="close-btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Equipos -->
+    <div id="equipoModal" class="modal">
+      <div class="modal-content">
+        <h2 id="equipoModalTitle">Agregar Equipo</h2>
+        <form id="equipoForm" th:action="@{/equipos/add}" method="post">
+          <div class="form-group">
+            <label for="equipoId">ID</label>
+            <input type="number" id="equipoId" name="idEquipo" readonly>
+          </div>
+          <div class="form-group">
+            <label for="equipoNombre">Nombre</label>
+            <input type="text" id="equipoNombre" name="nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="equipoMarca">Marca</label>
+            <input type="text" id="equipoMarca" name="marca" required>
+          </div>
+          <div class="form-group">
+            <label for="equipoModelo">Modelo</label>
+            <input type="text" id="equipoModelo" name="modelo" required>
+          </div>
+          <div class="form-group">
+            <label for="equipoNroSerie">Número de Serie</label>
+            <input type="text" id="equipoNroSerie" name="nroSerie" required>
+          </div>
+          <div class="form-group">
+            <label for="equipoNroActivoFijo">Número de Activo Fijo</label>
+            <input type="text" id="equipoNroActivoFijo" name="nroActivoFijo">
+          </div>
+          <div class="form-group">
+            <label for="equipoCategoria">Categoría</label>
+            <input type="text" id="equipoCategoria" name="categoria" required>
+          </div>
+          <div class="form-group">
+            <label for="equipoDescripcion">Descripción</label>
+            <textarea id="equipoDescripcion" name="descripcion"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="equipoCantidad">Cantidad</label>
+            <input type="number" id="equipoCantidad" name="cantidad" required min="1">
+          </div>
+          <div class="form-group">
+            <label for="equipoEstado">Estado</label>
+            <select id="equipoEstado" name="estado" required>
+              <option value="Disponible">Disponible</option>
+              <option value="En Prestamo">En Préstamo</option>
+              <option value="En Mantenimiento">En Mantenimiento</option>
+              <option value="Dado de Baja">Dado de Baja</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="equipoIdLaboratorio">Laboratorio</label>
+            <select id="equipoIdLaboratorio" name="idLaboratorio" required>
+              <option th:each="laboratorio : ${laboratorios}" th:value="${laboratorio.idLaboratorio}" th:text="${laboratorio.nombre}"></option>
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" class="close-btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Mantenimientos -->
+    <div id="mantenimientoModal" class="modal">
+      <div class="modal-content">
+        <h2 id="mantenimientoModalTitle">Agregar Mantenimiento</h2>
+        <form id="mantenimientoForm" th:action="@{/mantenimientos/add}" method="post">
+          <div class="form-group">
+            <label for="mantenimientoId">ID</label>
+            <input type="number" id="mantenimientoId" name="idMantenimiento" readonly>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoIdEquipo">Equipo</label>
+            <select id="mantenimientoIdEquipo" name="idEquipo" required>
+              <option th:each="equipo : ${equipos}" th:value="${equipo.idEquipo}" th:text="${equipo.nombre}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoIdUsuario">Administrador</label>
+            <select id="mantenimientoIdUsuario" name="idUsuario" required>
+              <option th:each="admin : ${administradores}" th:value="${admin.idUsuario}" th:text="${admin.usuario}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoFechaInicio">Fecha Inicio</label>
+            <input type="date" id="mantenimientoFechaInicio" name="fechaInicio" required>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoFechaFin">Fecha Fin</label>
+            <input type="date" id="mantenimientoFechaFin" name="fechaFin">
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoTipoMantenimiento">Tipo de Mantenimiento</label>
+            <select id="mantenimientoTipoMantenimiento" name="tipoMantenimiento" required>
+              <option value="Preventivo">Preventivo</option>
+              <option value="Correctivo">Correctivo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoEstadoInicial">Estado Inicial</label>
+            <input type="text" id="mantenimientoEstadoInicial" name="estadoInicial" required>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoEstadoFinal">Estado Final</label>
+            <input type="text" id="mantenimientoEstadoFinal" name="estadoFinal">
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoProblema">Problema</label>
+            <textarea id="mantenimientoProblema" name="problema" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoSolucion">Solución</label>
+            <textarea id="mantenimientoSolucion" name="solucion"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="mantenimientoEstado">Estado</label>
+            <select id="mantenimientoEstado" name="estado" required>
+              <option value="Pendiente">Pendiente</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Completado">Completado</option>
+            </select>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" class="close-btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para Sanciones -->
+    <div id="sancionModal" class="modal">
+      <div class="modal-content">
+        <h2 id="sancionModalTitle">Agregar Sanción</h2>
+        <form id="sancionForm" th:action="@{/sanciones/add}" method="post">
+          <div class="form-group">
+            <label for="sancionId">ID</label>
+            <input type="number" id="sancionId" name="idSancion" readonly>
+          </div>
+          <div class="form-group">
+            <label for="sancionIdUsuario">Usuario</label>
+            <select id="sancionIdUsuario" name="idUsuario" required>
+              <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsuario}" th:text="${usuario.usuario}"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sancionFechaInicio">Fecha Inicio</label>
+            <input type="date" id="sancionFechaInicio" name="fechaInicio" required>
+          </div>
+          <div class="form-group">
+            <label for="sancionFechaFin">Fecha Fin</label>
+            <input type="date" id="sancionFechaFin" name="fechaFin" required>
+          </div>
+          <div class="form-group">
+            <label for="sancionEstado">Estado</label>
+            <select id="sancionEstado" name="estado" required>
+              <option value="Activa">Activa</option>
+              <option value="Expirada">Expirada</option>
+              <option value="Cancelada">Cancelada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sancionDescripcion">Descripción</label>
+            <textarea id="sancionDescripcion" name="descripcion" required></textarea>
+          </div>
+          <button type="submit">Guardar</button>
+          <button type="button" class="close-btn">Cerrar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
+<script>
+  // Funciones de búsqueda (implementar en el backend según necesidades)
+  function searchPersonas() {
+    const keyword = document.getElementById('personaSearch').value;
+    window.location.href = '/dashboard?searchPersona=' + encodeURIComponent(keyword);
+  }
+
+  function searchPrestamos() {
+    const keyword = document.getElementById('prestamoSearch').value;
+    window.location.href = '/dashboard?searchPrestamo=' + encodeURIComponent(keyword);
+  }
+
+  function searchEquipos() {
+    const keyword = document.getElementById('equipoSearch').value;
+    window.location.href = '/dashboard?searchEquipo=' + encodeURIComponent(keyword);
+  }
+
+  function searchMantenimientos() {
+    const keyword = document.getElementById('mantenimientoSearch').value;
+    window.location.href = '/dashboard?searchMantenimiento=' + encodeURIComponent(keyword);
+  }
+
+  function searchSanciones() {
+    const keyword = document.getElementById('sancionSearch').value;
+    window.location.href = '/dashboard?searchSancion=' + encodeURIComponent(keyword);
+  }
+</script>
+</body>
+</html>
