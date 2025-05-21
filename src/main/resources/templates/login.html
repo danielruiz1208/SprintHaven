@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Sistema de Préstamos</title>
+    <!-- Estilos para la página de login -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Contenedor principal -->
+<div class="container" th:classappend="${showRegister} ? 'active'">
+    <!-- Panel izquierdo (información de contacto) -->
+    <div class="left_Side">
+        <div class="profileText">
+            <div class="imgBx">
+                <img th:src="@{/img/logo uni.png}" alt="Logo Universidad Salesiana">
+            </div>
+            <h2>Universidad Salesiana<br><span>Sistema de Préstamos</span></h2>
+        </div>
+        <div class="contactInfo">
+            <h3 class="title">Información de Contacto</h3>
+            <ul>
+                <li>
+                    <span class="icon"><i class="fas fa-phone"></i></span>
+                    <span class="text">+591 123 456 789</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="fas fa-envelope"></i></span>
+                    <span class="text">info@salesiana.edu.bo</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="fas fa-globe"></i></span>
+                    <span class="text">www.salesiana.edu.bo</span>
+                </li>
+                <li>
+                    <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <span class="text">La Paz, Bolivia</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Panel derecho (formularios) -->
+    <div class="right_Side">
+        <div class="formBx">
+            <!-- Formulario de inicio de sesión -->
+            <form th:action="@{/login}" method="post" id="loginForm">
+                <h2>Iniciar Sesión</h2>
+                <div class="inputBx">
+                    <span>Usuario</span>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="inputBx">
+                    <span>Contraseña</span>
+                    <input type="password" name="password" required>
+                </div>
+                <div th:if="${error}" class="error">
+                    <p th:text="${error}"></p>
+                </div>
+                <div th:if="${successMessage}" class="success">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+                <button type="button" class="register-btn">Registrarse</button>
+            </form>
+
+            <!-- Formulario de registro -->
+            <form th:action="@{/register}" method="post" id="registerForm">
+                <h2>Registrarse</h2>
+                <div class="inputBx">
+                    <span>Usuario</span>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="inputBx">
+                    <span>Contraseña</span>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="inputBx">
+                    <span>Correo</span>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="inputBx">
+                    <span>RU</span>
+                    <input type="number" name="ru" required min="10000" max="99999">
+                </div>
+                <div class="inputBx">
+                    <span>Rol</span>
+                    <select name="rol" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Docente">Docente</option>
+                    </select>
+                </div>
+                <div th:if="${error}" class="error">
+                    <p th:text="${error}"></p>
+                </div>
+                <button type="submit">Registrarse</button>
+                <button type="button" class="login-btn">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Íconos de Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- Script para cambiar entre formularios -->
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

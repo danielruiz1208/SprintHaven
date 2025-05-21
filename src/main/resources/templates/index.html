@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DE PRÉSTAMO DE LABORATORIO</title>
+    <link rel="stylesheet" href="/css/inicio.css">
+</head>
+<body>
+<!-- Encabezado con logotipo, título y menú -->
+<header class="header">
+    <div class="menu container">
+        <div class="logo-container">
+            <img th:src="@{/img/logo uni.png}" src="/img/logo uni.png" alt="Logo Universidad Salesiana" class="logo-img">
+            <span class="site-title">Sistema de préstamos de laboratorios</span>
+        </div>
+        <input type="checkbox" id="menu">
+        <label for="menu" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="navbar">
+            <ul>
+                <li><a th:href="@{/login}" href="/login">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Sección principal con imagen y texto superpuesto -->
+<section class="hero">
+    <div class="header-content">
+        <h1>SISTEMA DE PRESTAMO DE LABORATORIO</h1>
+        <p>Bienvenido al Sistema de Préstamo del Laboratorio de Electrónica, una herramienta desarrollada para mejorar la organización y el acceso a los equipos y materiales del laboratorio. A través de este sistema, estudiantes y docentes pueden gestionar de forma sencilla sus solicitudes de préstamo, consultar la disponibilidad de recursos y mantener un seguimiento claro de sus actividades.</p>
+    </div>
+</section>
+
+<!-- Sección Sistem (Laboratorios) -->
+<section class="sistem" id="laboratorios">
+    <div class="sistem-content container">
+        <h2>Explora Nuestros Laboratorios</h2>
+        <p class="txt-p">Descubre los espacios especializados que ofrecemos para apoyar tus proyectos académicos y de investigación. Cada laboratorio está equipado con tecnología de punta para garantizar una experiencia de aprendizaje óptima.</p>
+        <div class="sistem-group">
+            <div class="sistem-1">
+                <img th:src="@{/img/lab_electronica_1.jpg}" src="/img/lab_electronica_1.jpg" alt="Laboratorio de Electrónica" loading="lazy">
+                <h3>Laboratorio de Electrónica</h3>
+                <p>Espacio diseñado para el diseño, prueba y desarrollo de circuitos electrónicos.</p>
+            </div>
+            <div class="sistem-2">
+                <img th:src="@{/img/lab_hardware_1.jpg}" src="/img/lab_hardware_1.jpg" alt="Laboratorio de Hardware" loading="lazy">
+                <h3>Laboratorio de Hardware</h3>
+                <p>Área dedicada al ensamblaje, reparación y prueba de equipos de cómputo.</p>
+            </div>
+            <div class="sistem-3">
+                <img th:src="@{/img/lab_redes_1.webp}" src="/img/lab_redes_1.webp" alt="Laboratorio de Redes" loading="lazy">
+                <h3>Laboratorio de Redes</h3>
+                <p>Infraestructura para la configuración y análisis de redes de comunicación.</p>
+            </div>
+            <div class="sistem-4">
+                <img th:src="@{/img/lab_telecom_1.jpg}" src="/img/lab_telecom_1.jpg" alt="Laboratorio de Telecomunicaciones" loading="lazy">
+                <h3>Laboratorio de Telecomunicaciones</h3>
+                <p>Equipos especializados para el estudio de sistemas de telecomunicaciones.</p>
+            </div>
+        </div>
+        <a th:href="@{/login}" href="/login" class="btn-1">Reservar Ahora</a>
+    </div>
+</section>
+
+<!-- Sección Servicios -->
+<section class="services" id="servicios">
+    <div class="services-content container">
+        <h2>Servicios para Estudiantes y Docentes</h2>
+        <div class="services-group">
+            <div class="services-1">
+                <img th:src="@{/img/lab_electronica_1.jpg}" src="/img/lab_electronica_1.jpg" alt="Préstamo de Equipos" loading="lazy">
+                <h3>Préstamo de Equipos</h3>
+                <p>Solicita osciloscopios, multímetros y otros dispositivos para tus proyectos.</p>
+            </div>
+            <div class="services-2">
+                <img th:src="@{/img/lab_hardware_1.jpg}" src="/img/lab_hardware_1.jpg" alt="Reserva de Espacios" loading="lazy">
+                <h3>Reserva de Espacios</h3>
+                <p>Agenda tu laboratorio para clases, prácticas o investigaciones.</p>
+            </div>
+            <div class="services-3">
+                <img th:src="@{/img/lab_redes_2.jpg}" src="/img/lab_redes_2.jpg" alt="Seguimiento de Mantenimiento" loading="lazy">
+                <h3>Seguimiento de Mantenimiento</h3>
+                <p>Consulta el estado de los equipos y programa mantenimientos.</p>
+            </div>
+            <div class="services-4">
+                <img th:src="@{/img/informatica.webp}" src="/img/informatica.webp" alt="Soporte Técnico" loading="lazy">
+                <h3>Soporte Técnico</h3>
+                <p>Recibe asistencia para el uso de equipos y software.</p>
+            </div>
+        </div>
+        <p>Facilitamos el acceso a recursos para que puedas enfocarte en tu aprendizaje e investigación.</p>
+        <a th:href="@{/login}" href="/login" class="btn-1">Explorar Servicios</a>
+    </div>
+</section>
+
+<!-- Sección General 1 -->
+<section class="general">
+    <div class="general-1">
+        <h2>Espacios para la Innovación</h2>
+        <p>Accede a laboratorios modernos y bien equipados, diseñados para apoyar el aprendizaje y la innovación en Electrónica, Hardware, Redes y Telecomunicaciones.</p>
+        <a th:href="@{/login}" href="/login" class="btn-1">Comenzar Ahora</a>
+    </div>
+    <div class="general-2"></div>
+</section>
+
+<!-- Sección General 2 -->
+<section class="general">
+    <div class="general-3"></div>
+    <div class="general-1">
+        <h2>Apoyo a la Investigación</h2>
+        <p>Nuestros laboratorios están disponibles para proyectos de investigación, ofreciendo recursos y soporte técnico para estudiantes y docentes.</p>
+        <a th:href="@{/login}" href="/login" class="btn-1">Solicitar Acceso</a>
+    </div>
+</section>
+
+<!-- Sección Blog -->
+<section class="blog container" id="blog">
+    <h2>Últimas Noticias</h2>
+    <p>Entérate de las novedades y eventos relacionados con nuestros laboratorios.</p>
+    <div class="blog-content">
+        <div class="blog-1">
+            <img th:src="@{/img/lab_electronica_1.jpg}" src="/img/lab_electronica_1.jpg" alt="Nuevo Equipamiento" loading="lazy">
+            <h3>Nuevo Equipamiento en Electrónica</h3>
+            <p>Hemos incorporado nuevos osciloscopios al laboratorio de Electrónica para mejorar tus prácticas.</p>
+        </div>
+        <div class="blog-1">
+            <img th:src="@{/img/lab_hardware_1.jpg}" src="/img/lab_hardware_1.jpg" alt="Taller de Hardware" loading="lazy">
+            <h3>Taller de Hardware</h3>
+            <p>Únete a nuestro próximo taller de ensamblaje de computadoras en el laboratorio de Hardware.</p>
+        </div>
+        <div class="blog-1">
+            <img th:src="@{/img/lab_redes_2.jpg}" src="/img/lab_redes_2.jpg" alt="Certificación en Redes" loading="lazy">
+            <h3>Certificación en Redes</h3>
+            <p>Prepárate para certificaciones de redes con nuestras sesiones prácticas.</p>
+        </div>
+        <div class="blog-1">
+            <img th:src="@{/img/informatica.webp}" src="/img/informatica.webp" alt="Actualización de Software" loading="lazy">
+            <h3>Actualización de Software</h3>
+            <p>El laboratorio de Informática ahora cuenta con software actualizado para desarrollo web.</p>
+        </div>
+    </div>
+    <a th:href="@{/login}" href="/login" class="btn-1">Ver Más</a>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content container">
+        <div class="link">
+            <h3>Ingeniería de Sistemas - Laboratorios</h3>
+            <ul>
+                <li><a href="#laboratorios">Laboratorio de Electrónica</a></li>
+                <li><a href="#laboratorios">Laboratorio de Hardware</a></li>
+                <li><a href="#laboratorios">Laboratorio de Redes</a></li>
+                <li><a href="#laboratorios">Laboratorio de Telecomunicaciones</a></li>
+            </ul>
+        </div>
+        <p>© 2025 Universidad Salesiana de Bolivia - La Paz</p>
+    </div>
+</footer>
+
+<script th:src="@{/js/inicio.js}" src="/js/inicio.js"></script>
+</body>
+</html>

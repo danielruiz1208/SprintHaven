@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Estilos para la página de login y registro */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 1000px;
+    background: #2c2c2c;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    box-shadow: 0 35px 55px rgba(0, 0, 0, 0.1);
+}
+
+.container .left_Side {
+    position: relative;
+    background: #007bff;
+    padding: 40px;
+}
+
+.profileText {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profileText .imgBx {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profileText .imgBx img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileText h2 {
+    color: #fff;
+    font-size: 1.5em;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.contactInfo {
+    padding-top: 40px;
+}
+
+.title {
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.contactInfo ul {
+    position: relative;
+}
+
+.contactInfo ul li {
+    position: relative;
+    list-style: none;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.contactInfo ul li .icon {
+    display: inline-block;
+    width: 30px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.contactInfo ul li span {
+    color: #fff;
+    font-weight: 300;
+}
+
+.container .right_Side {
+    position: relative;
+    background: #2c2c2c;
+    padding: 40px;
+}
+
+.formBx {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.formBx form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formBx h2 {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.inputBx {
+    position: relative;
+    width: 100%;
+}
+
+.inputBx input,
+.inputBx select {
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.inputBx span {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #fff;
+    font-size: 0.9em;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.inputBx input:focus ~ span,
+.inputBx input:valid ~ span {
+    top: -10px;
+    font-size: 0.8em;
+    color: #007bff;
+}
+
+.inputBx i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #fff;
+}
+
+.formBx button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.formBx button:hover {
+    background: #0056b3;
+}
+
+.formBx .register-btn,
+.formBx .login-btn {
+    background: transparent;
+    color: #007bff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.formBx .register-btn:hover,
+.formBx .login-btn:hover {
+    color: #0056b3;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .container .left_Side {
+        display: none;
+    }
+}
