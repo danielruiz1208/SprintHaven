@@ -1,17 +1,21 @@
-package com.uritec.proyecto.Service;
+package com.usalesiana.proy15.service;
 
-import com.uritec.proyecto.Model.Usuario;
-import com.uritec.proyecto.Repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.usalesiana.proy15.model.Usuario;
 
-@Service
-public class UsuarioService {
+import java.util.List;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+// Interfaz para el servicio de usuarios
+public interface UsuarioService {
 
-    public Usuario login(String usuario, String contrasena) {
-        return usuarioRepository.findByUsuarioAndContrasena(usuario, contrasena).orElse(null);
-    }
+    // Autentica un usuario
+    boolean authenticate(String username, String password);
+
+    // Busca un usuario por nombre de usuario
+    Usuario findByUsername(String username);
+
+    // Registra un nuevo usuario
+    void registerUser(String username, String password, String email, Integer ru, String rol);
+
+    // Obtiene todos los usuarios
+    List<Usuario> getAllUsuarios();
 }
